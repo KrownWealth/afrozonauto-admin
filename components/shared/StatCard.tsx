@@ -32,8 +32,8 @@ export function StatCard({
   isLoading = false,
 }: StatCardProps) {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
+    <Card className='gap-4 py-4'>
+      <CardHeader className="flex flex-row items-center justify-between pb-1">
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
         </CardTitle>
@@ -52,7 +52,7 @@ export function StatCard({
           )}
 
           {badge && (
-            <Badge variant="secondary" className="mt-2">
+            <Badge variant="secondary" className="mt-1">
               {badge}
             </Badge>
           )}

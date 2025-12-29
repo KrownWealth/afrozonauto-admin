@@ -18,31 +18,32 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Logo } from '../shared';
+import { useAuthStore } from '@/lib/store';
 
 const menuItems = [
   {
     title: 'Dashboard',
-    href: '/dashboard',
+    href: '/admin/dashboard',
     icon: LayoutDashboard,
   },
   {
     title: 'Users',
-    href: '/users',
+    href: '/admin/users',
     icon: Users,
   },
   {
     title: 'Cars',
-    href: '/cars',
+    href: '/admin/cars',
     icon: Car,
   },
   {
     title: 'Orders',
-    href: '/orders',
+    href: '/admin/orders',
     icon: ShoppingCart,
   },
   {
     title: 'Payments',
-    href: '/payments',
+    href: '/admin/payments',
     icon: CreditCard,
   },
   {
@@ -113,8 +114,14 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
 }
 
 export function Sidebar() {
-  const { isMobileSidebarOpen, closeMobileSidebar } = useUIStore();
+  const pathname = usePathname();
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
+  const { isMobileSidebarOpen, closeMobileSidebar } = useUIStore();
+  const isAuthRoute = pathname === '/login' || pathname === '/';
+  if (!isAuthenticated || isAuthRoute) {
+    return null;
+  }
   return (
     <>
       {/* Desktop Sidebar - Always visible on large screens */}

@@ -1,10 +1,9 @@
 "use client";
 
-
 import { Button, ButtonProps } from '@nextui-org/react';
 import { Loader2, LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { forwardRef } from 'react';
+import { forwardRef, KeyboardEvent } from 'react';
 
 interface CustomBtnProps extends ButtonProps {
   isLoading?: boolean;
@@ -13,8 +12,8 @@ interface CustomBtnProps extends ButtonProps {
   iconPosition?: 'left' | 'right';
   type?: "button" | "submit" | "reset";
   isDisabled?: boolean;
-  continueText?: string;
   onClick?: () => void;
+  onKeyDown?: (e: KeyboardEvent<HTMLButtonElement>) => void;
 }
 
 export const CustomBtn = forwardRef<HTMLButtonElement, CustomBtnProps>(
@@ -26,17 +25,46 @@ export const CustomBtn = forwardRef<HTMLButtonElement, CustomBtnProps>(
       icon: Icon,
       iconPosition = 'left',
       disabled,
+      isDisabled,
       className,
+      onClick,
+      onKeyDown,
+      type = 'button',
       ...props
     },
     ref
   ) => {
-    const isDisabled = disabled || isLoading;
+    const buttonDisabled = disabled || isDisabled || isLoading;
+
+    // Handle Enter key only
+    const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+      // Call custom onKeyDown if provided
+      if (onKeyDown) {
+        onKeyDown(e);
+      }
+
+      // Don't handle if button is disabled
+      if (buttonDisabled) {
+        e.preventDefault();
+        return;
+      }
+
+      // Handle only Enter key
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        if (onClick && type !== 'submit') {
+          onClick();
+        }
+      }
+    };
 
     return (
       <Button
         ref={ref}
-        disabled={isDisabled}
+        type={type}
+        disabled={buttonDisabled}
+        onClick={onClick}
+        onKeyDown={handleKeyDown}
         className={cn(className)}
         {...props}
       >
