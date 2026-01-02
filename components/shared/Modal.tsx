@@ -58,7 +58,7 @@ export function Modal({
         <DialogHeader>
           <div className="flex items-center gap-3">
             {Icon && (
-              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                 <Icon className="h-5 w-5 text-primary" />
               </div>
             )}

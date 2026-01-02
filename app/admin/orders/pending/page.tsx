@@ -36,9 +36,9 @@ export default function PendingOrdersPage() {
       <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
         <Button
           variant="ghost"
-          onPress={() => router.push('/admin/dashboard')}
+          onPress={() => router.push('/admin/orders')}
         >
-          Back to Dashboard
+          Back
         </Button>
 
         <Card>

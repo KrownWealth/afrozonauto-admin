@@ -21,7 +21,8 @@ interface CustomSelectProps {
   placeholder?: string;
   options: Option[];
   className?: string;
-  width?: string; // e.g. "w-[180px]" or "w-full"
+  width?: string;
+  value?: string;
   borderColor?: string; // e.g. "border-red-500"
   onChange?: (value: string) => void;
 }
@@ -32,11 +33,12 @@ export function CustomSelect({
   options,
   className = "",
   width = "w-[180px]",
+  value,
   borderColor = "border-border",
   onChange,
 }: CustomSelectProps) {
   return (
-    <Select onValueChange={onChange}>
+    <Select value={value} onValueChange={onChange}>
       <SelectTrigger className={`${width} ${borderColor} ${className}`}>
         <SelectValue placeholder={placeholder} />
       </SelectTrigger>

@@ -22,8 +22,7 @@ export function useCreateCar() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Omit<Car, "id" | "createdAt" | "updatedAt">) =>
-      carsApi.create(data),
+    mutationFn: (payload: FormData) => carsApi.create(payload),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["cars"] });
       queryClient.invalidateQueries({ queryKey: ["dashboard"] });

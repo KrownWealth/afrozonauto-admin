@@ -87,3 +87,18 @@ export interface Activity {
   userId?: string;
   userName?: string;
 }
+
+export interface AddCarForm {
+  make: string;
+  model: string;
+  year: number;
+  price: number;
+  condition: CarCondition;
+  mileage: number;
+  location: string;
+  country: string;
+  description: string;
+  featured: boolean;
+  available: boolean;
+  images: File[];
+}

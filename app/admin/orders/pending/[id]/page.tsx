@@ -50,7 +50,7 @@ export default function PendingOrderDetailPage({ params }: { params: Promise<{ i
         <CustomBtn
           variant="ghost"
           icon={ArrowLeft}
-          onClick={() => router.push('/orders/pending')}
+          onClick={() => router.push('/admin/orders/pending')}
         >
           Back to Pending Orders
         </CustomBtn>

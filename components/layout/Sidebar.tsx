@@ -11,6 +11,8 @@ import {
   CreditCard,
   Settings,
   LogOut,
+  ChevronUp,
+  ChevronDown,
 } from 'lucide-react';
 import { useAuth } from '@/lib/hooks/useAuth';
 import { useUIStore } from '@/lib/store/useUIStore';
@@ -19,6 +21,7 @@ import { Separator } from '@/components/ui/separator';
 import { Sheet, SheetContent } from '@/components/ui/sheet';
 import { Logo } from '../shared';
 import { useAuthStore } from '@/lib/store';
+import { useState } from 'react';
 
 const menuItems = [
   {
@@ -40,6 +43,16 @@ const menuItems = [
     title: 'Orders',
     href: '/admin/orders',
     icon: ShoppingCart,
+    children: [
+      {
+        title: 'Pending Orders',
+        href: '/admin/orders/pending',
+      },
+      {
+        title: 'Completed Orders',
+        href: '/admin/orders/completed',
+      },
+    ],
   },
   {
     title: 'Payments',
@@ -57,6 +70,12 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
   const pathname = usePathname();
   const { user, handleLogout } = useAuth();
 
+  const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({});
+
+  const toggleMenu = (href: string) => {
+    setExpandedMenus(prev => ({ ...prev, [href]: !prev[href] }));
+  };
+
   return (
     <div className="flex h-full flex-col bg-card">
       <div className='p-6'>
@@ -68,25 +87,81 @@ function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {
       <nav className="flex-1 space-y-1 p-4">
         {menuItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+          const hasChildren = !!item.children?.length;
+          const isActive =
+            pathname === item.href || pathname.startsWith(item.href + '/');
+          const isExpanded = expandedMenus[item.href] || isActive;
 
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={onLinkClick}
-              className={cn(
-                'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors',
-                isActive
-                  ? 'bg-emerald-600 text-white'
-                  : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+            <div key={item.href}>
+              {/* Parent menu */}
+              {hasChildren ? (
+                <div
+                  className={cn(
+                    'flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer',
+                    isActive
+                      ? 'bg-emerald-600 text-white'
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  )}
+                  onClick={() => toggleMenu(item.href)}
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className="h-4 w-4" />
+                    <span>{item.title}</span>
+                  </div>
+
+                  <span className="text-muted-foreground">
+                    {isExpanded ? (
+                      <ChevronUp className="w-4 h-4" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
+                  </span>
+                </div>
+              ) : (
+                <Link
+                  href={item.href}
+                  onClick={onLinkClick}
+                  className={cn(
+                    'flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors cursor-pointer',
+                    isActive
+                      ? 'bg-emerald-600 text-white'
+                      : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  <span>{item.title}</span>
+                </Link>
               )}
-            >
-              <Icon className="h-4 w-4" />
-              {item.title}
-            </Link>
+
+              {/* Sub-menu */}
+              {hasChildren && isExpanded && (
+                <div className="ml-7 mt-1 space-y-1">
+                  {item.children!.map((child) => {
+                    const isChildActive = pathname === child.href;
+
+                    return (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        onClick={onLinkClick}
+                        className={cn(
+                          'block rounded-md px-3 py-1.5 text-sm transition-colors cursor-pointer',
+                          isChildActive
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
+                        )}
+                      >
+                        {child.title}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           );
         })}
+
       </nav>
 
       <Separator />
