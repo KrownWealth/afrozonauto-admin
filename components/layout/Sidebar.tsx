@@ -59,11 +59,11 @@ const menuItems = [
     href: '/admin/payments',
     icon: CreditCard,
   },
-  {
-    title: 'Settings',
-    href: '/settings',
-    icon: Settings,
-  },
+  // {
+  //   title: 'Settings',
+  //   href: '/settings',
+  //   icon: Settings,
+  // },
 ];
 
 function SidebarContent({ onLinkClick }: { onLinkClick?: () => void }) {

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useCreateCar } from '@/lib/hooks/useCars';
 import { CarCondition } from '@/types';
 import { Modal } from '../shared';
-import { FormField, CustomSelect, TextAreaField } from '@/components/Form';
+import { FormField, SelectField, TextAreaField } from '@/components/Form';
 import { Switch } from '@nextui-org/react';
 import {
   MakeSchema,
@@ -75,7 +75,7 @@ export function AddCarModal({ open, onOpenChange }: AddCarModalProps) {
     handleChange: handleDescriptionChange,
   } = useField('', RequiredSchema('Description'));
 
-  const [condition, setCondition] = useState<CarCondition | ''>('');
+  const [condition, setCondition] = useState<CarCondition | "">("");
   const [conditionError, setConditionError] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [featured, setFeatured] = useState(false);
@@ -170,15 +170,22 @@ export function AddCarModal({ open, onOpenChange }: AddCarModalProps) {
             reqValue="*"
           />
 
-          <CustomSelect
+          <SelectField
             label="Condition"
-            placeholder="Select condition"
+            htmlFor="consdition"
+            id="condition"
+            placeholder="Select Condition"
+            isInvalid={!!conditionError}
+            errorMessage={conditionError}
             value={condition}
-            options={conditionOptions}
-            onChange={(v) => {
-              setCondition(v as CarCondition);
-              setConditionError('');
+            onChange={(value: string) => {
+              setCondition(value as CarCondition);
+              setConditionError("");
             }}
+            options={conditionOptions}
+            required
+            reqValue="*"
+
           />
 
           <FormField

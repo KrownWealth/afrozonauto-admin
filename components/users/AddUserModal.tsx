@@ -2,19 +2,10 @@
 
 import { useState } from 'react';
 import { Modal } from '@/components/shared/Modal';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Switch } from '@nextui-org/react';
 import { toast } from 'sonner';
 import { UserRole } from '@/types';
 import { EmailSchema, FullNameSchema, PhoneSchema, useField } from '@/lib';
-import { CountrySelect, CustomSelect, FormField } from '../Form';
+import { CountrySelect, FormField, SelectField } from '../Form';
 
 const roleOptions = [
   { value: "ADMIN", label: "Admin" },
@@ -86,6 +77,7 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
           isInvalid={!!fullNameError}
           errorMessage={fullNameError}
           disabled={isLoading}
+          reqValue="*"
           required
         />
 
@@ -101,6 +93,7 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
           errorMessage={emailError}
           reqValue="*"
           className="text-sm"
+          required
         />
 
 
@@ -115,6 +108,7 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
           isInvalid={!!phoneError}
           errorMessage={phoneError}
           disabled={isLoading}
+          reqValue="*"
           required
         />
 
@@ -128,38 +122,25 @@ export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
           errorMessage={!country ? "Country is required" : undefined}
         />
 
-        <CustomSelect
-          label="Role"
-          placeholder="Select role"
-          value={selectedRole}
-          options={roleOptions}
-          onChange={(v) => {
-            setSelectedRole(v as UserRole);
-            setRoleError('');
-          }}
-        />
-
-
-        <div className="flex items-center justify-between p-4 border rounded-lg">
-          <div className="space-y-0.5">
-            <label>Account Status</label>
-            <p className="text-sm text-muted-foreground">
-              Activate or deactivate this user account
-            </p>
-          </div>
-          <Switch
-            isSelected={active}
-            onValueChange={setAvailable}
+        <div className='w-full'>
+          <SelectField
+            label="Role"
+            htmlFor="role"
+            id="role"
+            placeholder="Select Role"
+            isInvalid={!!roleError}
+            errorMessage={roleError}
+            value={selectedRole}
+            onChange={(value: string) => {
+              setSelectedRole(value as UserRole);
+              setRoleError("");
+            }}
+            options={roleOptions}
+            required
+            reqValue="*"
           />
-
         </div>
 
-        <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-          <p className="text-sm text-blue-900 dark:text-blue-100">
-            <strong>Note:</strong> A temporary password will be sent to the user's email address.
-            They will be required to change it on first login.
-          </p>
-        </div>
       </div>
     </Modal>
   );

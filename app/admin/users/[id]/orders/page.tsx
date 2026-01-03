@@ -119,8 +119,8 @@ export default function UserOrdersPage({ params }: { params: Promise<{ id: strin
                             variant="ghost"
                             size="sm"
                             icon={Eye}
-                            onClick={() => router.push(`/orders/${order.id}`)}
-                            className="h-8 w-8 p-0"
+                            onClick={() => router.push(`/admin/orders/${order.id}`)}
+                            className="h-8 w-8 p-0 cursor-pointer"
                           />
                         </TableCell>
                       </TableRow>

@@ -17,9 +17,20 @@ import {
   Calendar,
   Shield,
   ShoppingCart,
+  Eye,
   User as UserIcon
 } from 'lucide-react';
 import { format } from 'date-fns';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { EmptyState } from '@/components/shared';
+
 
 export default function UserProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = use(params);
@@ -143,6 +154,7 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
           <Card>
             <CardContent className="pt-6">
               <div className="text-2xl font-bold">
+
                 {userOrders.filter(o => o.status === 'paid').length}
               </div>
               <p className="text-sm text-muted-foreground">Completed</p>
@@ -188,6 +200,61 @@ export default function UserProfilePage({ params }: { params: Promise<{ id: stri
                 View Orders
               </CustomBtn>
             </div>
+
+            <CardContent>
+              {userOrders.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Order ID</TableHead>
+                        <TableHead>Car</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead className="w-20"></TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {userOrders.map((order) => (
+                        <TableRow key={order.id}>
+                          <TableCell className="font-mono text-sm">
+                            {order.id}
+                          </TableCell>
+                          <TableCell>
+                            {order.carDetails.make} {order.carDetails.model} ({order.carDetails.year})
+                          </TableCell>
+                          <TableCell className="font-medium">
+                            ${order.amount.toLocaleString()}
+                          </TableCell>
+                          <TableCell>
+                            <StatusBadge status={order.status} />
+                          </TableCell>
+                          <TableCell className="text-sm text-muted-foreground">
+                            {format(new Date(order.createdAt), 'MMM d, yyyy')}
+                          </TableCell>
+                          <TableCell>
+                            <CustomBtn
+                              variant="ghost"
+                              size="sm"
+                              icon={Eye}
+                              onClick={() => router.push(`/admin/orders/${order.id}`)}
+                              className="h-8 w-8 p-0 cursor-pointer"
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              ) : (
+                <EmptyState
+                  icon={ShoppingCart}
+                  title="No orders yet"
+                  description="This user hasn't placed any orders"
+                />
+              )}
+            </CardContent>
           </CardContent>
         </Card>
       </div>

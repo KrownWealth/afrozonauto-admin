@@ -1,59 +1,125 @@
 "use client";
 
-import * as React from "react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import React, { useState, useEffect, useRef } from "react";
+import { ChevronDown, Check } from "lucide-react";
 
-interface Option {
-  label: string;
+interface SelectOption {
   value: string;
+  label: string;
 }
 
-interface CustomSelectProps {
+interface SelectFieldProps {
   label?: string;
+  htmlFor?: string;
+  id: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: SelectOption[];
   placeholder?: string;
-  options: Option[];
+  isInvalid?: boolean;
+  errorMessage?: string;
+  required?: boolean;
+  reqValue?: string;
+  disabled?: boolean;
   className?: string;
-  width?: string;
-  value?: string;
-  borderColor?: string; // e.g. "border-red-500"
-  onChange?: (value: string) => void;
 }
 
-export function CustomSelect({
+export const SelectField: React.FC<SelectFieldProps> = ({
   label,
-  placeholder = "Select an option",
-  options,
-  className = "",
-  width = "w-[180px]",
+  htmlFor,
+  id,
   value,
-  borderColor = "border-border",
   onChange,
-}: CustomSelectProps) {
+  options,
+  placeholder = "Select an option",
+  isInvalid,
+  errorMessage,
+  required,
+  reqValue,
+  disabled,
+  className,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSelect = (optionValue: string) => {
+    onChange(optionValue);
+    setIsOpen(false);
+  };
+
+  const selectedOption = options.find(opt => opt.value === value);
+  const displayText = selectedOption ? selectedOption.label : placeholder;
+
   return (
-    <Select value={value} onValueChange={onChange}>
-      <SelectTrigger className={`${width} ${borderColor} ${className}`}>
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
+    <div className="flex flex-col space-y-1 w-full" ref={dropdownRef}>
+      {label && (
+        <label htmlFor={htmlFor || id} className="text-base text-dark font-normal">
+          {label} {required && <sup className="text-red-500">{reqValue || "*"}</sup>}
+        </label>
+      )}
 
-      <SelectContent>
-        <SelectGroup>
-          {label && <SelectLabel>{label}</SelectLabel>}
+      <div className="relative">
+        {/* Main Select Button */}
+        <button
+          type="button"
+          id={id}
+          onClick={() => !disabled && setIsOpen(!isOpen)}
+          disabled={disabled}
+          className={`w-full flex items-center justify-between border rounded-lg px-3 py-2 text-sm text-left bg-white transition-colors ${disabled
+            ? "bg-gray-100 cursor-not-allowed opacity-60"
+            : "hover:bg-gray-50 cursor-pointer"
+            } ${isInvalid ? "border-red-500" : "border-gray-300"
+            } ${className}`}
+        >
+          <span className={value ? "text-gray-900" : "text-gray-400"}>
+            {displayText}
+          </span>
+          <ChevronDown
+            className={`h-4 w-4 text-gray-500 transition-transform ${isOpen ? "rotate-180" : ""
+              }`}
+          />
+        </button>
 
-          {options.map((opt) => (
-            <SelectItem key={opt.value} value={opt.value}>
-              {opt.label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+        {/* Dropdown */}
+        {isOpen && !disabled && (
+          <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+            {options.length > 0 ? (
+              options.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleSelect(option.value)}
+                  className={`w-full flex items-center justify-between px-4 py-2 text-sm text-left hover:bg-gray-100 transition-colors ${value === option.value ? "bg-blue-50 text-blue-600" : "text-gray-900"
+                    }`}
+                >
+                  <span>{option.label}</span>
+                  {value === option.value && <Check className="h-4 w-4" />}
+                </button>
+              ))
+            ) : (
+              <div className="p-4 text-center text-sm text-gray-500">
+                No options available
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {isInvalid && errorMessage && (
+        <p className="text-xs text-red-500">{errorMessage}</p>
+      )}
+    </div>
   );
-}
+};
