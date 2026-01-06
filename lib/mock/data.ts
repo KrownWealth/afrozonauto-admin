@@ -320,6 +320,59 @@ export const mockActivities: Activity[] = [
   },
 ];
 
+export const mockNotifications = [
+  {
+    id: "notif-1",
+    type: "order_placed",
+    title: "New Order Placed",
+    message: "Order #order-2 placed by Sarah Smith",
+    recipient: "admin@carplatform.com",
+    status: "sent",
+    createdAt: "2024-12-24T14:20:00Z",
+    sentAt: "2024-12-24T14:20:30Z",
+  },
+  {
+    id: "notif-2",
+    type: "payment_confirmed",
+    title: "Payment Confirmed",
+    message: "Payment of $42,000 received for Order #order-3",
+    recipient: "admin@carplatform.com",
+    status: "sent",
+    createdAt: "2024-12-22T10:00:00Z",
+    sentAt: "2024-12-22T10:00:15Z",
+  },
+  {
+    id: "notif-3",
+    type: "order_placed",
+    title: "New Order Placed",
+    message: "Order #order-5 placed by Michael Johnson",
+    recipient: "operations@carplatform.com",
+    status: "pending",
+    createdAt: "2024-12-25T12:00:00Z",
+    sentAt: null,
+  },
+  {
+    id: "notif-4",
+    type: "payment_confirmed",
+    title: "Payment Confirmed",
+    message: "Payment of $28,500 received for Order #order-1",
+    recipient: "admin@carplatform.com",
+    status: "sent",
+    createdAt: "2024-12-20T11:00:00Z",
+    sentAt: "2024-12-20T11:00:10Z",
+  },
+  {
+    id: "notif-5",
+    type: "order_placed",
+    title: "New Order Placed",
+    message: "Order #order-6 placed by David Martinez",
+    recipient: "admin@carplatform.com",
+    status: "sent",
+    createdAt: "2024-12-26T08:30:00Z",
+    sentAt: "2024-12-26T08:30:25Z",
+  },
+];
+
 // Mock admin credentials
 export const mockAdminCredentials = {
   email: "admin@carplatform.com",

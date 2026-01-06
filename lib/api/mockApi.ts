@@ -6,7 +6,16 @@ import {
   mockDashboardStats,
   mockActivities,
 } from "@/lib/mock/data";
-import { User, Car, Order, Payment, DashboardStats, Activity } from "@/types";
+import {
+  User,
+  Car,
+  Order,
+  Payment,
+  DashboardStats,
+  Activity,
+  CarCondition,
+  CarSource,
+} from "@/types";
 
 // Simulated API delay to mimic real network requests
 const delay = (ms: number = 500) =>
@@ -98,6 +107,7 @@ export const usersApi = {
 // ============================================
 // CARS API
 // ============================================
+
 export const carsApi = {
   getAll: async (): Promise<Car[]> => {
     await delay(600);
@@ -112,23 +122,55 @@ export const carsApi = {
     return mockCars.find((c) => c.id === id);
   },
 
-  create: async (
-    data: Omit<Car, "id" | "createdAt" | "updatedAt">
-  ): Promise<Car> => {
+  create: async (data: FormData): Promise<Car> => {
     await delay(700);
+
+    const sourceValue = data.get("source") as string | null;
+
+    // Extract fields from FormData
+    const make = data.get("make") as string;
+    const model = data.get("model") as string;
+    const year = Number(data.get("year"));
+    const price = Number(data.get("price"));
+    const mileage = Number(data.get("mileage"));
+    const location = data.get("location") as string;
+    const country = data.get("country") as string;
+    const description = data.get("description") as string;
+    const condition = data.get("condition") as CarCondition;
+    const featured = data.get("featured") === "true";
+    const available = data.get("available") === "true";
+    const source: CarSource = sourceValue === "api" ? "api" : "manual";
+
+    // Handle file (mock URL)
+    const imageFile = data.get("images") as File | null;
+    const images = imageFile ? [URL.createObjectURL(imageFile)] : [];
+
     const newCar: Car = {
-      ...data,
       id: `car-${Date.now()}`,
+      make,
+      model,
+      year,
+      price,
+      mileage,
+      location,
+      country,
+      description,
+      condition,
+      featured,
+      available,
+      images,
+      source,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
+
     mockCars.push(newCar);
 
     // Add activity
     mockActivities.unshift({
       id: `act-${Date.now()}`,
       type: "car",
-      description: `New car added: ${data.make} ${data.model}`,
+      description: `New car added: ${make} ${model}`,
       timestamp: new Date().toISOString(),
     });
 

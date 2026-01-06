@@ -11,7 +11,7 @@ export function useAuth() {
 
     if (success) {
       toast.success("Login successful!");
-      router.push("/dashboard");
+      router.push("/admin/dashboard");
       return true;
     } else {
       toast.error("Invalid credentials");

@@ -4,6 +4,7 @@ import { Bell, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/lib/store/useUIStore';
+import { useRouter } from 'next/navigation';
 
 interface HeaderProps {
   title: string;
@@ -11,8 +12,14 @@ interface HeaderProps {
 }
 
 export function Header({ title, description }: HeaderProps) {
+  const router = useRouter();
+
   const { openMobileSidebar } = useUIStore();
 
+  const handleNotificationsClick = () => {
+    // Handle notification click
+    router.push('/admin/notifications');
+  };
   return (
     <div className="sticky top-0 z-10 border-b bg-card">
       <div className="flex h-16 items-center justify-between px-4 sm:px-6">
@@ -38,7 +45,7 @@ export function Header({ title, description }: HeaderProps) {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4">
-          <Button variant="ghost" size="icon" className="relative">
+          <Button onClick={handleNotificationsClick} variant="ghost" size="icon" className="relative cursor-pointer">
             <Bell className="h-5 w-5" />
             <Badge
               variant="destructive"
