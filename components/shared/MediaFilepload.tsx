@@ -24,9 +24,9 @@ const MediaUpload: React.FC<MediaUploadProps> = ({
 
       if (file.size > 5 * 1024 * 1024) {
         toast.error("File size must not exceed 5MB.");
-        ("File size must not exceed 5MB.");
         return;
       }
+
 
       if (!["image/jpeg", "image/png"].includes(file.type)) {
         toast.error("Only JPG, PNG, are allowed.");

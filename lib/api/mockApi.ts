@@ -3,7 +3,6 @@ import {
   mockCars,
   mockOrders,
   mockPayments,
-  mockDashboardStats,
   mockActivities,
 } from "@/lib/mock/data";
 import {

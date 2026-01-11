@@ -9,7 +9,6 @@ import { CustomBtn } from '@/components/shared/CustomBtn';
 import { StatusBadge } from '@/components/shared/StatusBadge';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { EmptyState } from '@/components/shared/EmptyState';
-import { Modal } from '@/components/shared/Modal';
 import {
   Table,
   TableBody,
@@ -42,12 +41,10 @@ import {
   Edit,
   Star,
   Power,
-  Car as CarIcon,
-  Badge
+  Car as CarIcon
 } from 'lucide-react';
 import Image from 'next/image';
 import { AddCarModal } from './AddCarModal';
-import { Button } from '@nextui-org/react';
 
 
 export function CarsListingPage() {

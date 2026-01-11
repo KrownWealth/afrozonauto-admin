@@ -18,40 +18,34 @@ interface AddUserModalProps {
 }
 
 export function AddUserModal({ open, onOpenChange }: AddUserModalProps) {
-  const { value: fullName, error: fullNameError, handleChange: handleFullNameChange, reset: resetFullName } = useField("", FullNameSchema);
-  const { value: phone, error: phoneError, handleChange: handleTelePhoneChange, reset: resetPhone } = useField("", PhoneSchema);
-  const { value: email, error: emailError, handleChange: handleEmailChange, reset: resetEmail } = useField("", EmailSchema);
+  const { value: fullName, error: fullNameError, handleChange: handleFullNameChange } = useField("", FullNameSchema);
+  const { value: phone, error: phoneError, handleChange: handleTelePhoneChange } = useField("", PhoneSchema);
+  const { value: email, error: emailError, handleChange: handleEmailChange } = useField("", EmailSchema);
 
   const [selectedRole, setSelectedRole] = useState<UserRole | "">("");
   const [country, setCountry] = useState<string>("");
-  const [active, setAvailable] = useState(true);
-  const [status, setStatus] = useState<'active' | 'inactive'>('active');
   const [roleError, setRoleError] = useState("");
-
-
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
-    // Validation
     if (!fullName || !email || !phone || !selectedRole) {
       toast.error('Please fill in all required fields');
       return;
     }
+
     setIsLoading(true);
 
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
-
       toast.success('User added successfully');
       onOpenChange(false);
-
-    } catch (error) {
+    } catch {
       toast.error('Failed to add user');
     } finally {
       setIsLoading(false);
     }
   };
+
 
   return (
     <Modal

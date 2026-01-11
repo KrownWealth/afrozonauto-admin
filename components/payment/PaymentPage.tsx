@@ -64,7 +64,14 @@ export default function PaymentsPage() {
   };
 
   const getPaymentMethodIcon = (method: string) => {
-    return <CreditCard className="h-4 w-4" />;
+    switch (method) {
+      case 'card':
+        return <CreditCard className="h-4 w-4" />;
+      case 'bank_transfer':
+        return <DollarSign className="h-4 w-4" />;
+      default:
+        return <CreditCard className="h-4 w-4" />;
+    }
   };
 
   const payment = payments?.find(p => p.id === selectedPayment);

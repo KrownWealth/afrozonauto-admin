@@ -5,38 +5,33 @@ import { Header } from '@/components/layout/Header';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CustomBtn } from '@/components/shared/CustomBtn';
 import { StatusBadge } from '@/components/shared/StatusBadge';
-import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { EmptyState } from '@/components/shared/EmptyState';
-import { useOrders } from '@/lib/hooks/useOrders';
+import { useOrder } from '@/lib/hooks/useOrders';
 import { ArrowLeft, ShoppingCart } from 'lucide-react';
 import { format } from 'date-fns';
+import { use } from 'react';
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
 
-export default function OrderDetailsPage({ params }: PageProps) {
+export default function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const { id: orderId } = params;
+  const resolvedParams = use(params);
 
-  const { data: orders, isLoading } = useOrders();
+  const { data: order } = useOrder(resolvedParams.id);
 
-  const order = orders?.find((o) => o.id === orderId);
 
-  console.log({ order })
+  //  const order = orders?.find((o) => o.id === orderId);
 
-  if (isLoading) {
-    return (
-      <div>
-        <Header title="Order Details" />
-        <div className="p-6">
-          <LoadingSpinner text="Loading order..." />
-        </div>
-      </div>
-    );
-  }
+
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <Header title="Order Details" />
+  //       <div className="p-6">
+  //         <LoadingSpinner text="Loading order..." />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   if (!order) {
     return (

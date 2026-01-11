@@ -14,9 +14,7 @@ interface FormFieldProps {
 	onChange?: (value: string) => void;
 	reqValue?: string;
 	required?: boolean;
-	minLen?: number;
-	maxLen?: number;
-	value?: any;
+	value?: string;
 	disabled?: boolean;
 	onKeyPress?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 	className?: string;
@@ -34,8 +32,6 @@ const FormField: React.FC<FormFieldProps> = ({
 	onChange,
 	reqValue,
 	required,
-	minLen,
-	maxLen,
 	value,
 	disabled,
 	onKeyPress,

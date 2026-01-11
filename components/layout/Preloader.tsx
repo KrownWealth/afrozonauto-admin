@@ -1,7 +1,7 @@
 'use client';
 
 import { Logo } from '@/components/shared';
-import { Loader2, Car } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 interface PreloaderProps {
   message?: string;

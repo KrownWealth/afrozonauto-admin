@@ -23,10 +23,10 @@ const conditionOptions = [
   { value: "CERTIFIED", label: "Certified" },
 ];
 
-const sourceOptions = [
-  { value: "api", label: "API" },
-  { value: "manual", label: "Manual" },
-];
+// const sourceOptions = [
+//   { value: "api", label: "API" },
+//   { value: "manual", label: "Manual" },
+// ];
 
 interface AddCarModalProps {
   open: boolean;

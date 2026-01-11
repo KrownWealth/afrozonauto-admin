@@ -8,7 +8,7 @@ import { CustomBtn } from '@/components/shared/CustomBtn';
 import { StatusBadge } from '@/components/shared/StatusBadge';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { useOrder } from '@/lib/hooks/useOrders';
-import { ArrowLeft, User, Car, DollarSign, Calendar } from 'lucide-react';
+import { ArrowLeft, User } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function PendingOrderDetailPage({ params }: { params: Promise<{ id: string }> }) {

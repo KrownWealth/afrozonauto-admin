@@ -13,7 +13,6 @@ import {
   Edit,
   Star,
   MapPin,
-  Calendar,
   Gauge,
   DollarSign,
   Package
