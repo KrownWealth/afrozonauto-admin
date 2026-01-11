@@ -38,7 +38,7 @@ export const CountrySelect: React.FC<CountrySelectProps> = ({
         const res = await fetch("https://restcountries.com/v3.1/all?fields=name");
         const data = await res.json();
         const countryNames = data
-          .map((c: any) => c.name.common)
+          .map((c) => c.name.common)
           .sort((a: string, b: string) => a.localeCompare(b));
         setCountries(countryNames);
       } catch (err) {

@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/lib/hooks/useAuth';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Car, AlertCircle } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 import { CustomBtn, Logo } from '@/components/shared';
 import { FormField, PasswordField } from '@/components/Form';
 import { EmailSchema, PasswordSchema, useField } from '@/lib';

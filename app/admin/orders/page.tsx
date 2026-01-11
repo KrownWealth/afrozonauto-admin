@@ -7,7 +7,7 @@ import { StatusBadge } from '@/components/shared/StatusBadge';
 import { LoadingSpinner } from '@/components/shared/LoadingSpinner';
 import { EmptyState } from '@/components/shared/EmptyState';
 import { useOrders } from '@/lib/hooks/useOrders';
-import { ArrowLeft, ShoppingCart, Eye } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { format } from 'date-fns';
 import {
   Table,

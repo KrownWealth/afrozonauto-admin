@@ -1,5 +1,10 @@
-import { Badge } from '@/components/ui/badge';
+import { Badge, badgeVariants } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import type { VariantProps } from 'class-variance-authority';
+
+
+type BadgeVariant = VariantProps<typeof badgeVariants>['variant'];
+
 
 type StatusType =
   | 'active'
@@ -20,7 +25,7 @@ interface StatusBadgeProps {
 }
 
 export function StatusBadge({ status, className }: StatusBadgeProps) {
-  const config: Record<StatusType, { variant: any; label: string; className?: string }> = {
+  const config: Record<StatusType, { variant: BadgeVariant; label: string; className?: string }> = {
     active: {
       variant: 'default',
       label: 'Active',

@@ -9,7 +9,6 @@ import {
   Car,
   ShoppingCart,
   CreditCard,
-  Settings,
   LogOut,
   ChevronUp,
   ChevronDown,

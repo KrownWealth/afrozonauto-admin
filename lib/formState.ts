@@ -5,7 +5,7 @@ import { ZodError, ZodType } from "zod";
 
 export const useField = (
   initialValue: string,
-  validationSchema?: ZodType<any>
+  validationSchema?: ZodType<string>
 ) => {
   const [value, setValue] = useState(initialValue);
   const [error, setError] = useState("");
@@ -50,8 +50,8 @@ export const useField = (
     touched,
     handleChange,
     handleBlur,
-    setValue, // ✅ needed for uploads & selects
-    validate, // ✅ used in submit logic
+    setValue,
+    validate,
     reset,
   };
 };

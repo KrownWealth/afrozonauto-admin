@@ -1,5 +1,5 @@
 import { Modal } from './Modal';
-import { AlertTriangle, Info, CheckCircle, XCircle } from 'lucide-react';
+import { AlertTriangle, Info, CheckCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 interface ConfirmModalProps {
